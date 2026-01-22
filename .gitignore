@@ -41,3 +41,5 @@
 *.dwo
 src/**/vcpkg_installed/
 src/**/build/
+src/**/build_arm64/
+src/**/export
