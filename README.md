@@ -35,7 +35,7 @@ export PATH=$VCPKG_ROOT:$PATH
 
 ## Project Structure
 
-```
+```bash
 vcpkg_examples/
 ├── src/
 │   ├── helloworld/           # Basic example using fmt library
@@ -80,7 +80,7 @@ make
 
 **Expected output:**
 
-```
+```bash
 Hello World!
 ```
 
@@ -121,15 +121,73 @@ file HelloWorld
 
 **Expected output:**
 
-```
+```bash
 HelloWorld: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=..., with debug_info, not stripped
 ```
 
-### Custom Library Example
+### Custom Library Example (vcpkg-sample-library)
 
-The `vcpkg-sample-library` directory contains an example of creating a custom vcpkg port for a library. This demonstrates how to package and distribute your own C++ libraries using vcpkg.
+The `vcpkg-sample-library` directory contains a complete example of creating a custom vcpkg port for a library. This demonstrates how to package and distribute your own C++ libraries using vcpkg.
 
-See the `usage` file and `portfile.cmake` for details on creating custom ports.
+#### Directory Structure
+
+```
+vcpkg-sample-library/
+├── vcpkg.json          # Port manifest (metadata and dependencies)
+├── portfile.cmake      # Build and installation instructions
+├── usage               # Usage documentation for consumers
+├── README.md           # Detailed port documentation
+├── example/            # Example application using the library
+│   ├── CMakeLists.txt
+│   ├── main.cpp
+│   └── vcpkg.json
+```
+
+#### Key Components
+
+**1. Port Files**
+
+- `vcpkg.json`: Defines port name, version, description, license, and dependencies
+- `portfile.cmake`: Contains build logic using vcpkg helper functions
+- `usage`: Provides CMake integration examples for consumers
+
+**2. Consumer Example (`example/`)**
+
+- Complete project using the library
+- Shows proper `find_package()` usage
+- Demonstrates linking with imported targets
+
+#### Building the Port
+
+```bash
+# creat port vcpkg-sample-library
+cp src/vcpkg-sample-library/portfile.cmake src/vcpkg-sample-library/vcpkg.json src/vcpkg-sample-library/usage $VCPKG_ROOT/vcpkg-sample-library/
+# From vcpkg root directory
+./vcpkg install vcpkg-sample-library
+```
+
+#### Using the Library
+
+Add to your `vcpkg.json`:
+
+```json
+{
+  "dependencies": [
+    "vcpkg-sample-library"
+  ]
+}
+```
+
+Then in your `CMakeLists.txt`:
+
+```cmake
+find_package(my_sample_lib CONFIG REQUIRED)
+target_link_libraries(your_target PRIVATE my_sample_lib::my_sample_lib)
+```
+
+#### Detailed Documentation
+
+See [vcpkg-sample-library/README.md](src/vcpkg-sample-library/README.md) for:
 
 ## Configuration Files
 

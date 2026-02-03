@@ -1,0 +1,8 @@
+{
+    "name": "sample-app",
+    "version": "1.0.0",
+    "description": "Example application using vcpkg-sample-library",
+    "dependencies": [
+        "vcpkg-sample-library"
+    ]
+}

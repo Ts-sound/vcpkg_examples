@@ -1,4 +1,53 @@
 vcpkg-sample-library provides CMake targets:
 
+## Basic Usage
+
+Add to your CMakeLists.txt:
+\`\`\`cmake
 find_package(my_sample_lib CONFIG REQUIRED)
 target_link_libraries(main PRIVATE my_sample_lib::my_sample_lib)
+\`\`\`
+
+## Example Project
+
+### CMakeLists.txt
+\`\`\`cmake
+cmake_minimum_required(VERSION 3.10)
+project(sample_app)
+
+find_package(my_sample_lib CONFIG REQUIRED)
+
+add_executable(sample_app main.cpp)
+target_link_libraries(sample_app PRIVATE my_sample_lib::my_sample_lib)
+\`\`\`
+
+### main.cpp
+\`\`\`cpp
+#include <my_sample_lib/hello.hpp>
+
+int main() {
+    my_sample_lib::say_hello();
+    return 0;
+}
+\`\`\`
+
+**Note:** The \`say_hello()\` function outputs "Hello, helloworld!"
+
+## Building with vcpkg
+
+\`\`\`bash
+# Install the library
+vcpkg install vcpkg-sample-library
+
+# Configure your project
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+
+# Build
+cmake --build build
+\`\`\`
+
+## Notes
+
+- This library depends on fmt for string formatting
+- Only static library linkage is supported
+- The library provides a simple hello world function as a demonstration
